@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>Vicky ❤️ Joel</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        color: white;
+        overflow-x: hidden;
+        background: black;
+    }
+
+    /* FONDO DE ESTRELLAS */
+
+    .stars {
+    position: fixed;
+    inset: 0;
+    background: transparent url("https://www.transparenttextures.com/patterns/stardust.png") repeat;
+    z-index: -1;
+    pointer-events: none;
+}
+
+    @keyframes moveStars {
+        from { background-position: 0 0; }
+        to { background-position: 10000px 5000px; }
+    }
+
+    /* ENCABEZADO */
+
+    h1 {
+        margin-top: 40px;
+        font-size: 42px;
+        padding: 0 10px;
+    }
+
+    /* CONTADOR */
+
+    .time-section {
+        margin: 35px auto 55px;
+        padding: 0 15px;
+    }
+
+    .time-section h2 {
+        font-size: 25px;
+        margin-bottom: 8px;
+    }
+
+    .since {
+        color: #aaa;
+        font-size: 13px;
+        margin-bottom: 25px;
+    }
+
+    #countdown {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .time-box {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+        border-radius: 12px;
+        padding: 15px 12px;
+        min-width: 85px;
+    }
+
+    .time-box span {
+        display: block;
+        font-size: 27px;
+        font-weight: bold;
+    }
+
+    .time-box small {
+        color: #aaa;
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .time-message {
+        margin-top: 20px;
+        font-size: 15px;
+        color: #ccc;
+    }
+
+    /* ALBUM SCRAPBOOK */
+
+    .album-section {
+        margin: 50px auto;
+        padding: 0 15px;
+        max-width: 1100px;
+    }
+
+    .album-section h2 {
+        font-size: 30px;
+        margin-bottom: 8px;
+    }
+
+    .album-subtitle {
+        color: #aaa;
+        font-size: 14px;
+        margin-bottom: 35px;
+    }
+
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 30px 20px;
+        align-items: center;
+    }
+
+    .photo {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+        background: #f5f0e8;
+        padding: 10px 10px 25px;
+        border-radius: 3px;
+        color: #222;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+        transform: rotate(var(--rotation));
+        max-width: 100%;
+    }
+
+    .photo:hover {
+        transform: rotate(0deg) scale(1.04);
+        z-index: 2;
+    }
+
+    .photo img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+        background: #ddd;
+    }
+
+    .photo-caption {
+        font-family: Georgia, serif;
+        font-size: 14px;
+        margin-top: 13px;
+        min-height: 17px;
+    }
+
+    /* VISOR DE FOTOGRAFÍAS */
+
+    .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.94);
+        z-index: 10;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .lightbox.active {
+        display: flex;
+    }
+
+    .lightbox-content {
+        max-width: 90%;
+        max-height: 85vh;
+        text-align: center;
+    }
+
+    .lightbox img {
+        max-width: 100%;
+        max-height: 75vh;
+        object-fit: contain;
+        border: 8px solid #f5f0e8;
+        box-shadow: 0 10px 40px black;
+    }
+
+    .lightbox p {
+        color: white;
+        margin-top: 15px;
+    }
+
+    .close-lightbox {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 35px;
+        color: white;
+        background: none;
+        padding: 5px 12px;
+    }
+
+    /* BOTONES */
+
+    button {
+        padding: 12px 20px;
+        border-radius: 15px;
+        border: none;
+        margin: 10px;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        background: white;
+        color: black;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    /* MÚSICA */
+
+    .music-section {
+        margin: 55px auto 35px;
+    }
+
+    /* PIE */
+
+    footer {
+        color: #777;
+        font-size: 12px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+    /* CELULARES */
+
+    @media (max-width: 600px) {
+
+        h1 {
+            font-size: 28px;
+        }
+
+        .time-section h2 {
+            font-size: 21px;
+        }
+
+        .time-box {
+            min-width: 70px;
+            padding: 12px 8px;
+        }
+
+        .time-box span {
+            font-size: 22px;
+        }
+
+        .gallery {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px 12px;
+        }
+
+        .photo {
+            padding: 7px 7px 18px;
+        }
+
+        .photo-caption {
+            font-size: 12px;
+        }
+
+        .album-section h2 {
+            font-size: 25px;
+        }
+
+        button {
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 350px) {
+        .gallery {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<h1>Vicky ❤️ Joel</h1>
+
+<!-- CONTADOR DE TIEMPO JUNTOS -->
+
+<section class="time-section">
+
+    <h2>Nuestro tiempo juntos ❤️</h2>
+
+    <div class="since">
+        Desde el 26 de marzo de 2026
+    </div>
+
+    <div id="countdown">
+
+        <div class="time-box">
+            <span id="days">0</span>
+            <small>DÍAS</small>
+        </div>
+
+        <div class="time-box">
+            <span id="hours">0</span>
+            <small>HORAS</small>
+        </div>
+
+        <div class="time-box">
+            <span id="minutes">0</span>
+            <small>MINUTOS</small>
+        </div>
+
+        <div class="time-box">
+            <span id="seconds">0</span>
+            <small>SEGUNDOS</small>
+        </div>
+
+    </div>
+
+    <div class="time-message">
+        Y contando... porque quiero que sean muchos más. ❤️
+    </div>
+
+</section>
+
+
+<!-- ÁLBUM DE RECUERDOS -->
+
+<section class="album-section">
+
+    <h2>Nuestros recuerdos 📸</h2>
+
+    <div class="album-subtitle">
+        Pequeños momentos de una historia enorme.
+    </div>
+
+    <div class="gallery" id="gallery">
+
+        <!-- CADA FOTO ES UN RECUERDO INDEPENDIENTE -->
+
+        <div class="photo" style="--rotation: -3deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="fotomuseo.jpeg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">En el museo</div>
+        </div>
+
+        <div class="photo" style="--rotation: 2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="62f12126-75f0-4a5c-9437-5882c8e83147.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">Ultima foto antes de ser novios</div>
+        </div>
+
+        <div class="photo" style="--rotation: -2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="sacandolengua.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption"></div>
+        </div>
+
+        <div class="photo" style="--rotation: 3deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="consuegros.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">Mis hermosos suegros</div>
+        </div>
+
+        <div class="photo" style="--rotation: -2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="fotonovios.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">Novios ❤️</div>
+        </div>
+
+        <div class="photo" style="--rotation: 2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="sonrisaramo.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">La sonrisa que me enloquece</div>
+        </div>
+
+        <div class="photo" style="--rotation: -3deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="728d42a6-6852-43e9-8bf9-63f619b3007c.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption"></div>
+        </div>
+
+        <div class="photo" style="--rotation: 2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="primerafoto.JPG"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption">Nuestra primero foto</div>
+        </div>
+
+        <div class="photo" style="--rotation: -2deg"
+             onclick="openPhoto(this)">
+            <img decoding="async" src="enbolivarparque.jpg"
+                 alt="Recuerdo juntos" loading="lazy">
+            <div class="photo-caption"></div>
+        </div>
+
+        <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="enbaño.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+       
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="dormida.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Dormida en ds</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="ateneotiernos.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Una de mis favs</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="vizcaina.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="besobaño.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="camacerca.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="caminando.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="conloschicos.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Con los chicos</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="conmuna.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Munita ❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="encama.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="fotoconfamilia.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="habitacionfacturas.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="fotoconfamiliavicky.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Mi 2da familia ❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="hamburguesa.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">gordos</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="hermosaconramo.JPG"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="jugandosims.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="mascarillas.JPG"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="mihermosamujer.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Mi hermosa gordita</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="turincon.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Nuestro rincon ❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="plaza.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="promesa.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Una promesa</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="ternura.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">❤️</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="hermosaconramo2.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Daria mi vida por ella</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="regalocumple.JPG"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption">Algo especial</div>
+</div>
+
+       <div class="photo" style="--rotation: -2deg"
+     onclick="openPhoto(this)">
+    <img decoding="async" src="vizcainaafuera.jpg"
+         alt="Recuerdo juntos" loading="lazy">
+    <div class="photo-caption"></div>
+</div>
+
+    </div>
+
+</section>
+
+
+<!-- VISOR DE FOTOS -->
+
+<div class="lightbox" id="lightbox" onclick="closePhoto(event)">
+
+    <button class="close-lightbox"
+            onclick="closePhoto(event)"
+            aria-label="Cerrar">&times;</button>
+
+    <div class="lightbox-content">
+        <img decoding="async" id="lightbox-image" src="" alt="Fotografía ampliada">
+        <p id="lightbox-caption"></p>
+    </div>
+
+</div>
+
+
+<!-- MÚSICA -->
+
+<div class="music-section">
+
+    <button onclick="playMusic()">
+        🎵 Reproducir canción
+    </button>
+
+    <audio preload="none" id="music" src="worship-or-love.mp3" loop></audio>
+
+</div>
+
+
+<footer>
+    Hecho con amor, para nosotros. ❤️
+</footer>
+
+
+<script>
+
+/* CONTADOR DESDE EL 26/03/2026 */
+
+const startDate = new Date(2026, 2, 26, 0, 0, 0).getTime();
+
+function updateCounter() {
+
+    const now = new Date().getTime();
+    const distance = now - startDate;
+
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML =
+            "Nuestra historia está por comenzar ❤️";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+
+}
+
+updateCounter();
+setInterval(updateCounter, 1000);
+
+
+/* AMPLIAR FOTOGRAFÍAS */
+
+function openPhoto(photo) {
+
+    const image = photo.querySelector("img");
+    const caption = photo.querySelector(".photo-caption");
+
+    document.getElementById("lightbox-image").src = image.src;
+    document.getElementById("lightbox-caption").textContent = caption.textContent;
+
+    document.getElementById("lightbox").classList.add("active");
+
+}
+
+function closePhoto(event) {
+
+    if (
+        event.target.id === "lightbox" ||
+        event.target.classList.contains("close-lightbox")
+    ) {
+        document.getElementById("lightbox").classList.remove("active");
+    }
+
+}
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        document.getElementById("lightbox").classList.remove("active");
+    }
+
+});
+
+
+/* REPRODUCTOR MUSICAL */
+
+function playMusic() {
+
+    const music = document.getElementById("music");
+
+    music.play().catch(function(error) {
+        console.log("No se pudo reproducir la canción:", error);
+    });
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+VERSION OPTIMIZADA DE VICKY ❤️ JOEL
+
+Qué se mejoró:
+- Se optimizaron las fotografías grandes manteniendo sus nombres y extensiones.
+- Las imágenes conservan suficiente resolución para el álbum y para abrirlas en grande.
+- Se agregó decoding="async" a las imágenes para evitar bloquear el desplazamiento.
+- La canción ahora tiene preload="none": se descarga cuando se toca el botón de reproducir.
+
+Tamaño total de las fotografías:
+- Antes: 43.5 MB
+- Ahora: 13.0 MB
+- Reducción aproximada: 70%
+
+CÓMO PUBLICAR:
+1. Descargá y descomprimí este ZIP.
+2. Reemplazá en tu repositorio los archivos actuales por los de esta carpeta.
+   Importante: mantené los nombres y las extensiones de las fotografías.
+3. Subí también el index.html actualizado y conservá worship-or-love.mp3.
+4. Hacé Commit changes y esperá a que GitHub Pages termine de publicar.
+
+No cambies los nombres de las fotos: el index.html las referencia por esos nombres.
